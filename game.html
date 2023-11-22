@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/gameBoard.css">
+    <title>Checkers Game</title>
+</head>
+<body>
+    <div class="score-container" id="global-score">
+        <div class="score-card">
+            <h3>Global Score</h3>
+            <p id="global-score-value">0</p>
+        </div>
+    </div>
+
+    <div class="player-scores">
+        <div class="score-container" id="player1-score">
+            <div class="score-card">
+                <h3 id="p1name">Player 1 Score</h3>
+                <p id="player1-score-value">0</p>
+            </div>
+        </div>
+
+        <div id="board-container">
+            <div id="board" class="board"></div>
+        </div>
+
+        <div class="score-container" id="player2-score">
+            <div class="score-card">
+                <h3 id="p2name">Player 2 Score</h3>
+                <p id="player2-score-value">0</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

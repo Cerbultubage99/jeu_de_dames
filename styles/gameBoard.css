@@ -1,0 +1,102 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #c84478;
+}
+
+.score-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    
+}
+
+#global-score {
+    width: 500px; /* Adjust the width to match the board's total width */
+}
+
+#player1-score, #player2-score {
+    height: 500px; /* Adjust the height to match the board's height */
+}
+
+.player-scores {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.score-card {
+    border: 1px solid #aaa;
+    padding: 10px;
+    margin: 2.5% 0;
+    text-align: center;
+    background-color: #0d0034;
+    width: 95%; /* Adjust the width as needed */
+    height: 95%; /* Adjust the height as needed */
+    border-style: solid;
+    border-radius: 5%;
+    color : white;
+    border-width: 10%;
+}
+
+#board-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(10, 50px);
+    grid-template-rows: repeat(10, 50px);
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #aaa;
+}
+
+.cell.dark {
+    background-color: #555;
+}
+
+.piece {
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+}
+
+.player1 {
+    background-color: #e74c3c; /* Red */
+
+}
+
+.player2 {
+    background-color: #3498db; /* Blue */
+
+}
+.player1k{
+    background-color: #410801 ;
+    
+}
+
+.player2k{
+    background-color:#0d0034 ;
+}
+.piece.highlight {
+    border: 2px solid yellow; 
+    box-sizing: border-box;
+}
