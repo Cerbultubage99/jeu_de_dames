@@ -32,10 +32,10 @@ document.addEventListener( "DOMContentLoaded", function() {
 
     let player = 1
 
-    let selRow    = null
-    let selCol    = null
-    let eatRow    = null
-    let eatCol    = null
+    let selRow = null
+    let selCol = null
+    let eatRow = null
+    let eatCol = null
 
     const board = createBoard( playedBoard )
     let player1Score = 0
@@ -224,7 +224,7 @@ document.addEventListener( "DOMContentLoaded", function() {
                     else if( playedBoard[selRow][selCol] == 7 && validMoveQueen( selRow, selCol, r, c, player ) )
                         playedBoard[r][c] = 4
                     else if( playedBoard[selRow][selCol] == 8 && validMoveQueen( selRow, selCol, r, c, player ) )
-                        console.log( playedBoard[r][c] + r + c )
+                        playedBoard[r][c] = 5
         }
         // mouve the piece
         else if( validMove( selRow, selCol, row, col, player ) )
