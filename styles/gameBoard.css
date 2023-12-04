@@ -96,6 +96,14 @@ body {
 .player2k{
     background-color:#0d0034 ;
 }
+.player1m{
+    background-color:#e74d3c50 ;
+}
+
+.player2m{
+    background-color:#3498db70 ;
+}
+
 .piece.highlight {
     border: 2px solid yellow; 
     box-sizing: border-box;
