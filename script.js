@@ -334,11 +334,6 @@ document.addEventListener( "DOMContentLoaded", function() {
     }
 
     function validMoveQueen( oriRow, oriCol, desRow, desCol, player ) {
-        // Check if the movement is't a capture
-        if( Math.abs( desRow - oriRow ) !== Math.abs( desCol - oriCol ) ) {
-            return false
-        }
-
         // Check if the destination cell is empty
         if( playedBoard[desRow][desCol] !== 0 && playedBoard[desRow][desCol] !== 4 && playedBoard[desRow][desCol] !== 5 )
             return false
