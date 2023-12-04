@@ -10,13 +10,13 @@ document.addEventListener( "DOMContentLoaded", function() {
     const backgroundColorVariable = "#c84478"
 
     // 0 empty scare
-    // 1 pion j1
-    // 2 pion j2
+    // 1 p1 Checker
+    // 2 p2 Checker
     // 3 black scare
-    // 4 movement possibility j1
-    // 5 movement possibility j2
-    // 7 queen j1
-    // 8 queen j2
+    // 4 p1 movement possibility
+    // 5 p2 movement possibility 
+    // 7 p1 queen
+    // 8 p2 queen
     let playedBoard = [
         [3, 1, 3, 1, 3, 1, 3, 1, 3, 1],
         [1, 3, 1, 3, 1, 3, 1, 3, 1, 3],
