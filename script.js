@@ -334,6 +334,11 @@ document.addEventListener( "DOMContentLoaded", function() {
     }
 
     function validMoveQueen( oriRow, oriCol, desRow, desCol, player ) {
+        // Check the directionality of the move
+        if( Math.abs( desRow - oriRow ) !== Math.abs( desCol - oriCol ) ) {
+            return false
+        }
+
         // Check if the destination cell is empty
         if( playedBoard[desRow][desCol] !== 0 && playedBoard[desRow][desCol] !== 4 && playedBoard[desRow][desCol] !== 5 )
             return false
@@ -349,8 +354,6 @@ document.addEventListener( "DOMContentLoaded", function() {
         let samePlayerPieceCount = 0
     
         // Loop through the path and count opponent and same player pieces
-        let stockRow = null
-        let stockCol = null
         while( row !== desRow && col !== desCol ) {
             // Check the color of the piece in the current cell
             const currentPiece = playedBoard[row][col]
@@ -358,8 +361,8 @@ document.addEventListener( "DOMContentLoaded", function() {
             // Check if there is an opponent's piece in the way
             if( ( player === 1 && ( currentPiece === 2 || currentPiece === 8 ) ) ||
                 ( player === 2 && ( currentPiece === 1 || currentPiece === 7 ) )    ) {
-                stockRow = row
-                stockCol = col
+                eatRow = row
+                eatCol = col
 
                 opponentPieceCount++
             }
