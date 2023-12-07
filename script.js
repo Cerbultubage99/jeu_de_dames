@@ -37,6 +37,8 @@ document.addEventListener( "DOMContentLoaded", function() {
     let eatRow = null
     let eatCol = null
 
+    let forcedDirection  = null
+
     const board = createBoard( playedBoard )
     let player1Score = 0
     let player2Score = 0
@@ -94,38 +96,38 @@ document.addEventListener( "DOMContentLoaded", function() {
                 cell.classList.add( "cell" )
 
                 // Check if the cell needs the "dark" class
-                if( ( row + col ) % 2 === 1 ) {
+                if( ( row + col ) % 2 == 1 ) {
                     cell.classList.add( "dark" )
                 }
 
                 // Add pieces for players
-                if( matrix[row][col] === 1 ) {
+                if( matrix[row][col] == 1 ) {
                     const piece = document.createElement( "div" )
                     piece.classList.add( "piece", "player1" )
                     cell.appendChild( piece )
                 }
-                else if( matrix[row][col] === 2 ) {
+                else if( matrix[row][col] == 2 ) {
                     const piece = document.createElement( "div" )
                     piece.classList.add( "piece", "player2" )
                     cell.appendChild( piece )
                 }
-                else if( matrix[row][col] === 7 ) {
+                else if( matrix[row][col] == 7 ) {
                     const piece = document.createElement( "div" )
                     piece.classList.add( "piece", "player1k" )
                     cell.appendChild( piece )
 
                 }
-                else if( matrix[row][col] === 8 ) {
+                else if( matrix[row][col] == 8 ) {
                     const piece = document.createElement( "div" )
                     piece.classList.add( "piece", "player2k" )
                     cell.appendChild( piece )
                 }
-                else if( matrix[row][col] === 4 ) {
+                else if( matrix[row][col] == 4 ) {
                     const piece = document.createElement( "div" )
                     piece.classList.add( "piece", "player1m" )
                     cell.appendChild( piece )
                 }
-                else if( matrix[row][col] === 5 ) {
+                else if( matrix[row][col] == 5 ) {
                     const piece = document.createElement( "div" )
                     piece.classList.add( "piece", "player2m" )
                     cell.appendChild( piece )
@@ -139,33 +141,6 @@ document.addEventListener( "DOMContentLoaded", function() {
             }
             board.push( rowArray )
         }
-        class PieceSelector{
-                selectedPiece( row, col ) {
-                    if( this.selectedPiece ) {
-                        this.selectedPiece.classlist.remove( "selected" )
-                    }
-
-                    const cell = document.querySelector( `.cell[data-row="${row}"][data-col="${col}"]` )
-                    this.selectedPiece = cell.querySelector( ".piece" )
-
-                    if (this.selectedPiece){
-                        this.selectedPiece.classList.add( "selected" )
-
-                        console.log( `selected piece at row ${row}, colum ${col}` )
-                    }
-                }
-                getSelectedPiecePosition() {
-                if( this.selectedPiece ){
-                    const row = parseInt( this.selectedPiece.parentElement.dataset.row, 10 )
-                const col = parseInt( this.selectedPiece.parentElement.dataset.col, 10 )
-                return {row,col}
-                }
-                else {
-                    return null
-                }
-            }
-        }
-        const pieceSelector = new PieceSelector()
 
         return board
     }
@@ -202,14 +177,14 @@ document.addEventListener( "DOMContentLoaded", function() {
             console.log( playedBoard[row][col] + " n'est pas un pion" )
         }
         // check if the player try to play his piece
-        else if( playedBoard[row][col] !== player     &&
-                 playedBoard[row][col] !== player + 3 &&
-                 playedBoard[row][col] !== player     &&
-                 playedBoard[row][col] !== player + 6    )
+        else if( playedBoard[row][col] != player     &&
+                 playedBoard[row][col] != player + 3 &&
+                 playedBoard[row][col] != player     &&
+                 playedBoard[row][col] != player + 6    )
         {
             console.log( playedBoard[row][col] + " n'est pas votre pion" )
         }
-        // save the selected piece and check her mouvement
+        // save the selected piece and check its mouvement
         else if( selRow == null && selCol == null )
         {
             selRow = row
@@ -225,6 +200,17 @@ document.addEventListener( "DOMContentLoaded", function() {
                         playedBoard[r][c] = 4
                     else if( playedBoard[selRow][selCol] == 8 && validMoveQueen( selRow, selCol, r, c, player ) )
                         playedBoard[r][c] = 5
+
+            if( forcedDirection != null )
+                for( let r = 0; r < playedBoard.length; r++ )
+                    for( let c = 0; c < playedBoard[r].length; c++ )
+                        if( playedBoard[r][c] == 4 || playedBoard[r][c] == 5 )
+                            if( col - c > 0 && forcedDirection < 0 )
+                                playedBoard[r][c] = 0
+                            else if( col - c < 0 && forcedDirection > 0 )
+                                playedBoard[r][c] = 0
+
+            forcedDirection  = null
         }
         // mouve the piece
         else if( validMove( selRow, selCol, row, col, player ) )
@@ -234,13 +220,13 @@ document.addEventListener( "DOMContentLoaded", function() {
                     if( playedBoard[r][c] == 4 || playedBoard[r][c] == 5 )
                     playedBoard[r][c] = 0
 
-            if( playedBoard[selRow][ selCol ] === 2 && row == 0 )
+            if( playedBoard[selRow][ selCol ] == 2 && row == 0 )
             {
                 playedBoard[selRow][selCol] = 8
                 console.log( "reine bleu" )
 
             }
-            else if( playedBoard[selRow][selCol] === 1 && row == 9 )
+            else if( playedBoard[selRow][selCol] == 1 && row == 9 )
             {
                 playedBoard[row][col] = 7
                 console.log( "reine rouge" )
@@ -258,9 +244,11 @@ document.addEventListener( "DOMContentLoaded", function() {
 
             selRow = null
             selCol = null
+
+            forcedDirection  = null
             // change background color based on the player's turn
-            player = player === 1 ? 2 : 1
-            player === 1 ? bgcolor = "#c84478" : bgcolor = "#3d125b"
+            player = player == 1 ? 2 : 1
+            player == 1 ? bgcolor = "#c84478" : bgcolor = "#3d125b"
             document.body.style.backgroundColor = bgcolor
         }
         else
@@ -295,38 +283,38 @@ document.addEventListener( "DOMContentLoaded", function() {
     }
 
     function validMoveChecker( oriRow, oriCol, desRow, desCol, player ){
-        if( oriRow === desRow && oriCol === desCol ) {
+        if( oriRow == desRow && oriCol == desCol ) {
             return false
         }
 
-        if( playedBoard[desRow][desCol] !== 0 && playedBoard[desRow][desCol] !== 4 && playedBoard[desRow][desCol] !== 5 )
+        if( playedBoard[desRow][desCol] != 0 && playedBoard[desRow][desCol] != 4 && playedBoard[desRow][desCol] != 5 )
             return false
 
-        if( Math.abs( desRow - oriRow ) === Math.abs( desCol - oriCol ) ) {
-            // Check if it's a regular move (not a capture)
-            if( Math.abs( desRow - oriRow ) === 1 ) {
-                // Check the directionality of the move
-                return player === 1 ? desRow > oriRow : desRow < oriRow
+        if( forcedDirection != null )
+        {
+            console.log( "forcedDirection = " + forcedDirection + " oriCol - desCol = " + ( oriCol - desCol ) )
+            if( forcedDirection > 0 && ( oriCol - desCol ) < 0 ||
+                forcedDirection < 0 && ( oriCol - desCol ) > 0    )
+                return false
             }
 
-            if( Math.abs(desRow - oriRow) === 2 ) {
+        if( Math.abs( desRow - oriRow ) == Math.abs( desCol - oriCol ) ) {
+            // Check the length of the direction
+            if( Math.abs( desRow - oriRow ) == 1 ) {
+                return player == 1 ? desRow > oriRow : desRow < oriRow
+            }
+
+            if( Math.abs(desRow - oriRow) == 2 ) {
                 const midRow = ( oriRow + desRow ) / 2
                 const midCol = ( oriCol + desCol ) / 2
 
-                if( player === 1 ) {
-                    if( desRow > oriRow && playedBoard[midRow][midCol] === 2 || 
-                        desRow > oriRow && playedBoard[midRow][midCol] === 8    ) {
-                        eatRow = midRow
-                        eatCol = midCol
-                        return true
-                    }
-                }
-                else if( desRow < oriRow && playedBoard[midRow][midCol] === 1 || 
-                         desRow < oriRow && playedBoard[midRow][midCol] === 7    ) {
-                    eatRow = midRow
-                    eatCol = midCol
-                    console.log( "eatRow = " + eatRow + " eatCol = " + eatCol)
-                    return true
+                if( ( player == 1 && ( playedBoard[midRow][midCol] == 2 || playedBoard[midRow][midCol] == 8 ) ) ||
+                    ( player == 2 && ( playedBoard[midRow][midCol] == 1 || playedBoard[midRow][midCol] == 7 ) )    ) {
+                    eatRow = midRow;
+                    eatCol = midCol;
+                    forcedDirection = oriCol - desCol;
+                    console.log("eatRow = " + eatRow + " eatCol = " + eatCol + " forcedDirection = " + forcedDirection);
+                    return true;
                 }
             }
         }
@@ -335,13 +323,21 @@ document.addEventListener( "DOMContentLoaded", function() {
 
     function validMoveQueen( oriRow, oriCol, desRow, desCol, player ) {
         // Check the directionality of the move
-        if( Math.abs( desRow - oriRow ) !== Math.abs( desCol - oriCol ) ) {
+        if( Math.abs( desRow - oriRow ) != Math.abs( desCol - oriCol ) ) {
             return false
         }
 
         // Check if the destination cell is empty
-        if( playedBoard[desRow][desCol] !== 0 && playedBoard[desRow][desCol] !== 4 && playedBoard[desRow][desCol] !== 5 )
+        if( playedBoard[desRow][desCol] != 0 && playedBoard[desRow][desCol] != 4 && playedBoard[desRow][desCol] != 5 )
             return false
+
+        if( forcedDirection != null )
+        {
+            console.log( "forcedDirection = " + forcedDirection + " oriCol - desCol = " + ( oriCol - desCol ) )
+            if( forcedDirection > 0 && ( oriCol - desCol ) < 0 ||
+                forcedDirection < 0 && ( oriCol - desCol ) > 0    )
+                return false
+        }
 
         // Determine the direction of movement
         const stepRow = desRow > oriRow ? 1 : -1
@@ -354,23 +350,24 @@ document.addEventListener( "DOMContentLoaded", function() {
         let samePlayerPieceCount = 0
     
         // Loop through the path and count opponent and same player pieces
-        while( row !== desRow && col !== desCol ) {
+        while( row != desRow && col != desCol ) {
             // Check the color of the piece in the current cell
             const currentPiece = playedBoard[row][col]
 
             // Check if there is an opponent's piece in the way
-            if( ( player === 1 && ( currentPiece === 2 || currentPiece === 8 ) ) ||
-                ( player === 2 && ( currentPiece === 1 || currentPiece === 7 ) )    ) {
+            if( ( player == 1 && ( currentPiece == 2 || currentPiece == 8 ) ) ||
+                ( player == 2 && ( currentPiece == 1 || currentPiece == 7 ) )    ) {
                 eatRow = row
                 eatCol = col
 
+                forcedDirection = oriCol - desCol
+
                 opponentPieceCount++
             }
-            else if( currentPiece === player || currentPiece === player + 6 ) {
+            else if( currentPiece == player || currentPiece == player + 6 ) {
                 samePlayerPieceCount++
             }
 
-            // Move to the next cell
             row += stepRow
             col += stepCol
         }
